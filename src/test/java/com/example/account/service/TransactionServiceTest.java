@@ -3,7 +3,7 @@ package com.example.account.service;
 import com.example.account.domain.Account;
 import com.example.account.domain.AccountUser;
 import com.example.account.domain.Transaction;
-import com.example.account.dto.AccountDto;
+
 import com.example.account.dto.TransactionDto;
 import com.example.account.exception.AccountException;
 import com.example.account.repository.AccountRepository;
@@ -184,6 +184,35 @@ class TransactionServiceTest {
 
 
     @Test
+    @DisplayName("해지 계좌는 잔액이 없어야 함")
+    void deleteAccountFailed_balanceNotEmpty(){
+//given
+        AccountUser user = AccountUser.builder()
+                .name("Pobi").build();
+        user.setId(12L);
+
+
+        given(accountUserRepository.findById(anyLong()))
+                .willReturn(Optional.of(user));
+
+        given(accountRepository.findByAccountNumber(anyString()))
+                .willReturn(Optional.of(Account.builder()
+                        .accountUser(user)
+                        .balance(123L)
+                        .accountNumber("1000000012").build()));
+
+// when
+        AccountException exception = assertThrows(AccountException.class,
+                () -> transactionService.useBalance(1L,"1234567890",1000L));
+
+
+// then
+        assertEquals(ErrorCode.ACCOUNT_ALREADY_UNREGISTERED, exception.getErrorCode());
+    }
+
+
+
+    @Test
     @DisplayName("해지 계좌는 사용할 수 없다.")
     void deleteAccountFailed_alreadyUnregistered(){
         //given (parameter)
@@ -222,7 +251,7 @@ class TransactionServiceTest {
         Account account = Account.builder()
                 .accountUser(user)
                 .accountStatus(AccountStatus.IN_USE)
-                .balance(100L)  //100원밖에 없는데
+                .balance(100L)
                 .accountNumber("1000000012").build();
 
 
