@@ -111,8 +111,6 @@ class TransactionServiceTest {
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.empty());
 
-        ArgumentCaptor<Account> captor = ArgumentCaptor.forClass(Account.class);
-
 
         //when (method)
         AccountException exception = assertThrows(AccountException.class,
@@ -260,8 +258,6 @@ class TransactionServiceTest {
         given(accountRepository.findByAccountNumber(anyString()))
                 .willReturn(Optional.of(account));
 
-
-        ArgumentCaptor<Transaction> captor = ArgumentCaptor.forClass(Transaction.class);
 
 
 

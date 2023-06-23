@@ -1,7 +1,7 @@
 package com.example.account.service;
 
 import com.example.account.aop.AccountLockIdInterface;
-import com.example.account.dto.UseBalance;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
