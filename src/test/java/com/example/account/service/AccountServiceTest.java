@@ -96,7 +96,7 @@ class AccountServiceTest {
                         .accountUser(user)
                         .accountNumber("1000000015").build());
 
-        //실제로 저장되는 값은 captor안에 들어가게 돼있?
+        //실제로 저장되는 값은 captor안에 들어가게 돼있
         ArgumentCaptor<Account> captor = ArgumentCaptor.forClass(Account.class);
 
 
